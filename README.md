@@ -31,9 +31,12 @@ source venv/bin/activate  # or .\venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
 
+また、全体ページを表すindex.mdはMakefileを用いて生成するようになっています。
+index.mdを更新する場合、コマンドプロぷんとで`make`と打ってください。
+
 ## 免責事項
 
-このドキュメントは一部、OpenAIの提供する ChatGPT を利用して作成されました。最終的な編集・構成は[あなたの名前またはハンドルネーム]が行っており、内容に関する責任は全て著作者に帰属します。
+このドキュメントは一部、OpenAIの提供する ChatGPT を利用して作成されました。最終的な編集・構成はT. Yasusiが行っており、内容に関する責任は全て著作者に帰属します。
 
 ## ライセンス
 

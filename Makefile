@@ -1,4 +1,4 @@
-SOURCES = intro.md info_structure.md table_structure.md operation.md
+SOURCES = intro.md info_structure.md table_structure.md operation.md summary.md
 OUTPUT  = index.md
 
 $(OUTPUT) : $(SOURCES)
