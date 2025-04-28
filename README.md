@@ -14,6 +14,22 @@
 - Web APIによる情報公開構想
 - モックデータによる試験運用展望
 
+### セットアップ方法
+一部の図表の再生成にはPython 3.8 以上を使用しています。
+
+依存ライブラリをインストールするには以下を実行してください：
+
+```bash
+pip install -r requirements.txt
+
+
+仮想環境を使う場合は以下を実行してください:
+```bash
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+pip install -r requirements.txt
+
+
 ## 免責事項
 
 このドキュメントは一部、OpenAIの提供する ChatGPT を利用して作成されました。最終的な編集・構成は[あなたの名前またはハンドルネーム]が行っており、内容に関する責任は全て著作者に帰属します。
