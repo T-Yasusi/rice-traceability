@@ -22,13 +22,14 @@
 ```bash
 pip install -r requirements.txt
 
+```
 
 仮想環境を使う場合は以下を実行してください:
 ```bash
 python -m venv venv
 source venv/bin/activate  # or .\venv\Scripts\activate on Windows
 pip install -r requirements.txt
-
+```
 
 ## 免責事項
 
