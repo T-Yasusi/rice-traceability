@@ -1,4 +1,5 @@
 import random
+import math
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -8,6 +9,7 @@ from db_structure.connect_to_circle import connect_to_circle
 from db_structure.connect_to_circle2 import connect_to_circle2
 from db_structure.connect_to_circle_by_arr import connect_to_circle_by_arr
 from db_structure.generate_node_points import generate_node_points
+from db_structure.calc_dtriangle import calc_dtriangle
 
 # 日本語フォント（Noto Sans CJK JP）を指定
 plt.rcParams['font.family'] = 'Noto Sans CJK JP'
@@ -37,15 +39,22 @@ for i in range(5):
 node_points = [ (-0.24 + i * 0.18, 1.53 ) for i in range(9) ]
 node_points = sorted(node_points, key=lambda p: p[0])
 node_points.extend(generate_node_points((0, 0.91), (1.40, 0.5), 20, 0.15))
-
-print(node_points)
+# print(node_points)
         
 for x, y in node_points:
     circle = patches.Circle((x, y),radius=0.05, edgecolor='black',facecolor='lightblue')
     ax.add_patch(circle)
-
+    
 connect_to_circle(ax, start=(collection_point_x[0], collection_point_y), end=node_points[0], radius=0.05, color="blue", linewidth=2)
 connect_to_circle(ax, start=(collection_point_x[6], collection_point_y), end=node_points[8], radius=0.05, color="blue", linewidth=2)
+
+spend_points = [ (-0.35, 1.2), (1.37, 1.2) ]
+for x, y in spend_points:
+    triangle = patches.Polygon(calc_dtriangle(x, y, 0.25), closed=True, facecolor='salmon', edgecolor='black')
+    ax.add_patch(triangle)    
+
+connect_to_circle_by_arr(ax, spend_points[0], node_points[0], radius=0.05, arrow_at="start", color="blue", linewidth=2, mutation_scale=20)
+connect_to_circle_by_arr(ax, spend_points[1], node_points[8], radius=0.05, arrow_at="start", color="blue", linewidth=2, mutation_scale=20)
 
 for i in range(7):
     for _ in range(3):
@@ -92,13 +101,49 @@ for i in range(2, 14):
                              color="blue", linewidth=2, mutation_scale=20)
 
 
-ax.autoscale_view()
-    
+node_point2_x = [ -0.30 + i * 0.24 for i in range(8) ]
+node_point2_y = 0.0
+
+for x in node_point2_x:
+    circle = patches.Circle((x, node_point2_y),radius=0.05, edgecolor='black',facecolor='white', linewidth=2)
+    ax.add_patch(circle)
+
+for i in range(16):
+    j = math.floor(i/2)
+    connect_to_circle_by_arr(ax, (rice_polising_x[i]+0.0375, rice_polising_y), (node_point2_x[j], node_point2_y), radius=0.05, 
+                             color="black", linewidth=2, mutation_scale=20)
+
+spend_x = [ -0.30 + i * 0.24 for i in range(8) ]
+spend_y = -0.2
+
+for x in spend_x:
+    triangle = patches.Polygon(calc_dtriangle(x, spend_y, 0.15), closed=True, facecolor='salmon', edgecolor='black')
+    ax.add_patch(triangle)
+
+for i in range(8):
+    connect_to_circle_by_arr(ax, (spend_x[i], spend_y), (node_point2_x[i], node_point2_y), radius=0.05, arrow_at="start",
+                             color="black", linewidth=2, mutation_scale=20)
+
+rect = patches.Rectangle((1.7, 1.5), 0.15, 0.15, edgecolor='black', facecolor='lightgreen' )
+ax.add_patch(rect)
+ax.text(1.86, 1.54, '生産地', fontsize=12)
+rect = patches.Rectangle((1.7, 1.2), 0.15, 0.15, edgecolor='black', facecolor='tan' )
+ax.add_patch(rect)
+ax.text(1.86, 1.24, '備蓄庫', fontsize=12)
+rect = patches.Rectangle((1.75, 0.9), 0.075, 0.075, edgecolor='black', linewidth=2 )
+ax.add_patch(rect)
+ax.text(1.86, 0.91, '精米所', fontsize=12)
+triangle = patches.Polygon(calc_dtriangle(1.75, 0.675, 0.15), closed=True, facecolor='salmon', edgecolor='black')
+ax.add_patch(triangle)
+ax.text(1.86, 0.6, '消費', fontsize=12)
+
+ax.autoscale_view()    
 plt.tight_layout()
-    
+
 # 軸非表示
 ax.set_aspect('equal')
 ax.axis('off')
 
+plt.savefig("figs/db_structure.png", dpi=300)
 plt.show()
 
