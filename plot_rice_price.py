@@ -14,21 +14,23 @@ plt.rcParams.update({
 })
 
 # CSVファイルのパス
-csv_path = "data/rice_price.csv"
-
-# CSVの読み込み
-df = pd.read_csv(csv_path)
-
-# 日付として扱う
+df = pd.read_csv("data/rice_price.csv")
 df["年月"] = pd.to_datetime(df["年月"], format="%Y-%m")
-
-# 店頭価格をkgあたりに換算（5kgパック前提）
 df["店頭価格(円/kg)"] = df["店頭価格(円/5kg)"] / 5
+
+
+# ======= 追加のCSV（5kg店頭価格）を読み込み =======
+df2 = pd.read_csv("data/rice_price_shop.csv")  # 例: '米価格_5kg_月次推移.csv' をリネーム
+df2["月"] = pd.to_datetime(df2["月"], format="%Y年%m月")
+df2["店頭価格(円/kg)"] = df2["平均価格（円/5kg）"] / 5
 
 # プロット
 plt.figure(figsize=(10, 6))
-plt.plot(df["年月"], df["玄米価格(円/kg)"], label="玄米価格 (相対取引)", marker="o")
-plt.plot(df["年月"], df["店頭価格(円/kg)"], label="店頭価格", marker="s")
+plt.plot(df["年月"], df["玄米価格(円/kg)"], label="1. 玄米価格 (相対取引)", marker="o")
+plt.plot(df["年月"], df["店頭価格(円/kg)"], label="2. 店頭価格 (東京都データ)", marker="s")
+
+# 追加データ
+plt.plot(df2["月"], df2["店頭価格(円/kg)"], label="3. 店頭価格（集計データ）", linestyle="--", marker="^", color="red")
 
 # 注釈: 最近の店頭価格急騰を強調
 # latest = df.iloc[-1]
